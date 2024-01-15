@@ -1,46 +1,27 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const dropArea = document.getElementById("dropArea");
-    const input = document.getElementById("input-file");
-    const fileList = document.getElementById("fileList");
+// Obtener la lista de archivos al cargar la página
+window.onload = function () {
+    fetch('/archivos')
+        .then(response => response.json())
+        .then(data => {
+            const listaArchivos = document.getElementById('listaArchivos');
+            data.archivos.forEach(archivo => {
+                const elementoLista = document.createElement('li');
+                elementoLista.textContent = archivo;
+                listaArchivos.appendChild(elementoLista);
+            });
+        })
+        .catch(error => console.error('Error:', error));
+};
 
-    dropArea.addEventListener("dragover", (e) => {
-        e.preventDefault();
-        dropArea.classList.add("active");
-    });
-
-    dropArea.addEventListener("dragleave", () => {
-        dropArea.classList.remove("active");
-    });
-
-    dropArea.addEventListener("drop", (e) => {
-        e.preventDefault();
-        dropArea.classList.remove("active");
-        handleFiles(e.dataTransfer.files);
-    });
-
-    input.addEventListener("change", () => {
-        handleFiles(input.files);
-    });
-
-    function handleFiles(files) {
-        fileList.innerHTML = ""; // Limpiar la lista de archivos
-
-        for (const file of files) {
-            const listItem = document.createElement("div");
-            listItem.className = "file-item";
-
-            const fileName = document.createElement("span");
-            fileName.textContent = file.name;
-
-            const downloadLink = document.createElement("a");
-            downloadLink.href = URL.createObjectURL(file);
-            downloadLink.download = file.name;
-            downloadLink.textContent = "Descargar";
-
-            listItem.appendChild(fileName);
-            listItem.appendChild(downloadLink);
-
-            fileList.appendChild(listItem);
-        }
+// Descargar archivos seleccionados
+function descargarArchivos() {
+    const archivosSeleccionados = document.querySelectorAll('input[type="checkbox"]:checked');
+    if (archivosSeleccionados.length === 0) {
+        alert('Selecciona al menos un archivo para descargar.');
+        return;
     }
-});
+
+    const archivosDescargar = Array.from(archivosSeleccionados).map(checkbox => checkbox.value);
+    const url = '/descargar?archivos=' + encodeURIComponent(JSON.stringify(archivosDescargar));
+    window.location.href = url;
+}

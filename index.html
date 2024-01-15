@@ -1,75 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Subir y Descargar Archivos</title>
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f4f4f4;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-
-        .drop-area {
-            border: 2px dashed #3498db;
-            border-radius: 8px;
-            padding: 20px;
-            text-align: center;
-            transition: border 0.3s ease-in-out;
-            background-color: #fff;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .drop-area.active {
-            border-color: #007BFF;
-        }
-
-        .file-list {
-            margin-top: 20px;
-        }
-
-        .file-item {
-            margin-bottom: 10px;
-            background-color: #fff;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            padding: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-        }
-
-        .file-item span {
-            flex-grow: 1;
-            margin-right: 10px;
-        }
-
-        .file-item a {
-            padding: 8px 12px;
-            background-color: #3498db;
-            color: #fff;
-            text-decoration: none;
-            border-radius: 3px;
-            transition: background-color 0.3s ease-in-out;
-        }
-
-        .file-item a:hover {
-            background-color: #007BFF;
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="drop-area" id="dropArea">
-        <h2>Arrastra y suelta archivos aquí o haz clic para seleccionar archivos</h2>
-        <input type="file" id="input-file" multiple>
-        <div class="file-list" id="fileList"></div>
-    </div>
+    <h2>Subir Archivos</h2>
+    <form action="/subir" method="post" enctype="multipart/form-data">
+        <input type="file" name="archivos" multiple id="inputArchivos" accept=".jpg, .jpeg, .png, .pdf">
+        <button type="submit">Subir Archivos</button>
+    </form>
+
+    <h2>Archivos Disponibles</h2>
+    <ul id="listaArchivos"></ul>
+
+    <button id="descargarArchivos" onclick="descargarArchivos()">Descargar Archivos</button>
 
     <script src="script.js"></script>
 </body>
