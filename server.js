@@ -39,6 +39,16 @@ app.get('/archivos', (req, res) => {
     });
 });
 
+// Ruta para descargar archivos
+app.get('/descargar', (req, res) => {
+    const archivosDescargar = JSON.parse(req.query.archivos);
+
+    archivosDescargar.forEach(archivo => {
+        const rutaArchivo = path.join(__dirname, 'uploads', archivo);
+        res.download(rutaArchivo);
+    });
+});
+
 app.listen(puerto, () => {
     console.log(`Servidor escuchando en http://localhost:${puerto}`);
 });
